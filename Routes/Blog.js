@@ -11,19 +11,18 @@ router.get('/add', auth, (req, res, next) => {
 
 //add a new blog
 router.post('/add', auth, (req ,res, next) => {
-    console.log(req.body)
 
     Blog.create({
         heading: req.body.heading,
         body: req.body.body,
-        username: req.body.username
+        username: req.user.username
     }, (err, newBlog) => {
         if(err) {
             console.log(err);
-            res.sendStatus(500)
+            res.render('error', {message: 'There was an internal server error'})
         }
         else {
-            res.sendStatus(200)
+            res.redirect(`/blogs/${req.user.username}/blogs`)
         }
     })
 })
@@ -31,11 +30,11 @@ router.post('/add', auth, (req ,res, next) => {
 //delete a certain blog
 router.post('/delete/:id', auth, (req, res, next) => {
     var id = req.params.id;
-
+    
     Blog.findOne({'_id': id}, 'heading body date', (err, oneBlog) => {
         if(err) {
             console.log(err)
-            res.sendStatus(500)
+            res.render('error', {message: 'There was an internal server error'})
         }
         else if (oneBlog === null) {
             res.sendStatus(404)
@@ -45,14 +44,14 @@ router.post('/delete/:id', auth, (req, res, next) => {
                 Blog.deleteOne({'_id': id}, (err) => {
                     if (err) {
                         console.log(err);
-                        res.sendStatus(500);
+                        res.render('error', {message: 'There was an internal server error'});
                     } else {
-                        res.sendStatus(200)
+                        res.redirect(`/blogs/${req.user.username}/blogs`)
                     }
                 })
             }
             else {
-                res.sendStatus(401)
+                res.render('error', {message: 'Unauthorised'})
             }
         }
     })
@@ -67,7 +66,7 @@ router.get('/:id', (req, res, next) => {
     Blog.findOne({'_id': id}, 'heading body date', (err, oneBlog) => {
         if(err) {
             console.log(err)
-            res.sendStatus(500)
+            res.render('error', {message: 'There was an internal server error'})
         }
         else if(oneBlog === null) {
             res.sendStatus(404)
@@ -80,7 +79,7 @@ router.get('/:id', (req, res, next) => {
 })
 
 //edit handler for blog
-router.post('/edit/:id', (req, res, next) => {
+router.post('/edit/:id', auth,(req, res, next) => {
     var id = req.params.id;
 
     Blog.updateOne(
@@ -92,19 +91,28 @@ router.post('/edit/:id', (req, res, next) => {
         (err, updatedBlog) => {
             if (err) {
                 console.log(err)
-                res.sendStatus(500)
+                res.render('error', {message: 'There was an internal server error'})
             }
             else {
-                res.sendStatus(200)
+                res.redirect(`/blogs/${req.user.username}/blogs`)
             }
         }
     )
 })
 
-router.get('/:username/blogs', (req, res ,next) => {
+router.get('/:username/blogs',  (req, res ,next) => {
     let username = req.params.username;
+    let isAuthor = false
 
-    User.findOne({'username': username}, (err, oneUser) => {
+    if(req.user) {
+        console.log('yup')
+        if(req.user.username === username) {
+            isAuthor = true
+            console.log(isAuthor)
+        }
+    }
+
+    User.findOne({'username': username},(err, oneUser) => {
         if(err || oneUser === null) {
             res.render('/error', {message: '404 Not found'})
         }
@@ -113,10 +121,10 @@ router.get('/:username/blogs', (req, res ,next) => {
             Blog.find({'username': username}, (err, blogs) => {
                 if(err){
                     console.log(err)
-                    res.render('err', {err: err})
+                    res.render('error', {err: err, message: 'There was an internal server error'})
                 }
                 else {
-                    res.render('userBlogs', {blogs: blogs, user: oneUser})
+                    res.render('userBlogs', {blogs: blogs, author: oneUser, isAuthor: isAuthor, user: req.user})
                 }
             })
         }

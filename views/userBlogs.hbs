@@ -1,17 +1,36 @@
-<h1 class="text-center">Blogs by {{user.username}}</h1>
-<br />
+<h1 class="text-center">Blogs by {{author.username}}</h1>
+
+<hr />
 {{#blogs}}
-    <div class="row ">
-        <div class="col text-center">
+    <div class="row">
+        <div class="col text-center border border-dark">
             <p>
                 {{this.heading}}
             </p>
         </div>
-        <div class="col text-center">
+        <div class="col text-center border border-dark">
             <p>
                 {{this.date}}
             </p>
         </div>
+        {{#if ../isAuthor}}
+            <div class="col-auto text-center border border-dark">
+                <a href="/blog/edit/{{this._id}}">
+                    <img src="/images/edit.svg" alt="edit" id="action" />
+                </a>
+            </div>
+            <div class="col-auto text-center border border-dark">
+                <a href="/blog/delete/{{this._id}}">
+                    <img src="/images/delete.svg" alt="edit" id="action" />
+                </a>
+            </div>
+        {{else}}
+            <div class="col-auto text-center border border-dark">
+                <a href="/blog/{{this._id}}">
+                    <img src="/images/view.svg" alt="edit" id="action" />
+                </a>
+            </div>
+        {{/if}}
     </div>
     <br />
 {{/blogs}}

@@ -236,3 +236,11 @@ footer{
   height: 100vh;
   overflow: auto;
 }
+
+#action{
+  height: 70%;
+}
+
+#add{
+  height: 40%;
+}
