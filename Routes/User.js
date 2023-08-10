@@ -19,7 +19,7 @@ router.post('/register', (req, res, next) => {
         (err, newUser) => {
             if (err) {
                 console.log(err)
-                res.redirect('/register')
+                res.redirect('/user/register')
             }
             else {
                 req.login(newUser, (err) => {
@@ -36,7 +36,7 @@ router.get('/login', (req, res, next) => {
 
 router.post('/login', passport.authenticate('local', {
     successRedirect: '/',
-    failureRedirect: '/login',
+    failureRedirect: '/user/login?message=true',
     failureMessage: 'Invalid credentials'
 }))
 

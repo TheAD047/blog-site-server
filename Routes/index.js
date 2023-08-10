@@ -8,16 +8,15 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/discover', (req, res, next) => {
-
   Blog.find((err, tenBlogs) => {
     if(err) {
       console.log(err)
     }
     else {
-      res.json(tenBlogs);
+      console.log(tenBlogs)
+      res.render('discover', {title: 'Discover' , tenBlogs: tenBlogs});
     }
-  }).limit(10);
+  }).limit(10).lean();
 })
-
 
 module.exports = router;
