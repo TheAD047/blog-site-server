@@ -1,0 +1,22 @@
+<h1 class="text-center">{{title}}</h1>
+
+{{#tenBlogs}}
+    <div class='list-group list-group-flush card'>
+        <h2 class='list-group-item card-text'>
+            {{this.heading}}
+        </h2>
+        <p class='list-group-item card-text'>
+            {{this.body}}
+        </p>
+        <div class='list-group-item'>
+            <div class='row'>
+                <div class='col-md-6'>
+                    {{this.username}}
+                </div>
+                <div class='col-ms-6'>
+                    {{this.date}}
+                </div>
+            </div>
+        </div>
+    </div>
+{{/tenBlogs}}
