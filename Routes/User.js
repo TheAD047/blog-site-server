@@ -55,4 +55,15 @@ router.get('/view/:username', (req, res, next) =>  {
     })
 })
 
+router.get('/logout', (req, res, next) => {
+    req.logout((err) => {
+        if(err) {
+            console.log(err)
+        }
+        else{
+            res.redirect('/login')
+        }
+    })
+})
+
 module.exports = router;

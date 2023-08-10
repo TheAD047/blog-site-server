@@ -1,0 +1,17 @@
+<h1 class="text-center">Blogs by {{user.username}}</h1>
+<br />
+{{#blogs}}
+    <div class="row ">
+        <div class="col text-center">
+            <p>
+                {{this.heading}}
+            </p>
+        </div>
+        <div class="col text-center">
+            <p>
+                {{this.date}}
+            </p>
+        </div>
+    </div>
+    <br />
+{{/blogs}}

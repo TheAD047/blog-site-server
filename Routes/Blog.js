@@ -1,9 +1,16 @@
 const express = require('express');
 const router = express.Router();
 const Blog = require('../models/Blogs')
+const User = require('../models/Users')
+const auth = require('../util/AuthCheck')
+
+router.get('/add', auth, (req, res, next) => {
+    console.log(req.user.username)
+    res.render('addBlog', {user: req.user})
+})
 
 //add a new blog
-router.post('/add', (req ,res, next) => {
+router.post('/add', auth, (req ,res, next) => {
     console.log(req.body)
 
     Blog.create({
@@ -22,7 +29,7 @@ router.post('/add', (req ,res, next) => {
 })
 
 //delete a certain blog
-router.post('/delete/:id', (req, res, next) => {
+router.post('/delete/:id', auth, (req, res, next) => {
     var id = req.params.id;
 
     Blog.findOne({'_id': id}, 'heading body date', (err, oneBlog) => {
@@ -34,15 +41,19 @@ router.post('/delete/:id', (req, res, next) => {
             res.sendStatus(404)
         }
         else {
-            Blog.deleteOne({'_id': id}, (err) => {
-                if(err) {
-                    console.log(err);
-                    res.sendStatus(500);
-                }
-                else {
-                    res.sendStatus(200)
-                }
-            })
+            if(oneBlog.username === req.user.username) {
+                Blog.deleteOne({'_id': id}, (err) => {
+                    if (err) {
+                        console.log(err);
+                        res.sendStatus(500);
+                    } else {
+                        res.sendStatus(200)
+                    }
+                })
+            }
+            else {
+                res.sendStatus(401)
+            }
         }
     })
 })
@@ -93,8 +104,22 @@ router.post('/edit/:id', (req, res, next) => {
 router.get('/:username/blogs', (req, res ,next) => {
     let username = req.params.username;
 
-    Blog.find({'username': username}, (err, blogs) => {
-
+    User.findOne({'username': username}, (err, oneUser) => {
+        if(err || oneUser === null) {
+            res.render('/error', {message: '404 Not found'})
+        }
+        else {
+            oneUser.username = oneUser.username.split('@')[0]
+            Blog.find({'username': username}, (err, blogs) => {
+                if(err){
+                    console.log(err)
+                    res.render('err', {err: err})
+                }
+                else {
+                    res.render('userBlogs', {blogs: blogs, user: oneUser})
+                }
+            })
+        }
     })
 })
 

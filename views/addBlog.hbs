@@ -1,0 +1,41 @@
+<div class='card'>
+    <h2 class='text-center card-title'>Create a blog</h2>
+    <br />
+    <form class='form card-body' onSubmit={addBlog}>
+        <div class='row'>
+            <div class='col-md-2'></div>
+            <fieldset class='col-md-8'>
+                <label for='heading'>Heading</label>
+                <input
+                    class='form-control'
+                    placeholder="tell us what it is about"
+                    type='text'
+                    name='heading'
+                    id='heading'
+                    required />
+            </fieldset>
+        </div>
+        <div class='row'>
+            <div class='col-md-2'></div>
+            <fieldset class='col-md-8'>
+                <label for='body'>Content</label>
+                <textarea
+                    class='form-control'
+                    placeholder="write whats on your mind"
+                    name='body'
+                    id='body'
+                    required >
+                </textarea>
+            </fieldset>
+        </div>
+        <br />
+        <div class='row'>
+            <div class='col-md-6'></div>
+            <div class='col-md-4'>
+                <button class='btn btn-primary text-center' type='submit'>
+                    Create
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

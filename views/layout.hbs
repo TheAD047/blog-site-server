@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>{{title}}</title>
     <link rel='stylesheet' href='/stylesheets/style.css'/>
@@ -28,8 +28,8 @@
                 <ul class="nav navbar-nav" id="links">
                     <li class="nav-item" role="presentation"><a class="nav-link" href="/home">Discover</a></li>
                     {{#if user}}
-                        <li class="nav-item" role="presentation"><a class="nav-link" href='/signout'>sign out</a></li>
-                        <li class="nav-item" role="presentation"><a class="nav-link" href='*'>Your Blogs</a></li>
+                        <li class="nav-item" role="presentation"><a class="nav-link" href='/user/logout'>sign out</a></li>
+                        <li class="nav-item" role="presentation"><a class="nav-link" href="/blogs/{{user.username}}/blogs">Your Blogs</a></li>
                     {{else}}
                         <li class="nav-item" role="presentation"><a class="nav-link" href="/user/login">Login</a></li>
                         <li class="nav-item" role="presentation"><a class="nav-link" href="/user/register">Register</a></li>
