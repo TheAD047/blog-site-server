@@ -2,26 +2,26 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" ",
-    "start": "node server",
-    "dev": "nodemon server"
+    "start": "node ./bin/www"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cookie-parser": "~1.4.4",
     "express": "^4.18.2",
     "express-session": "^1.17.3",
     "jsonwebtoken": "^9.0.1",
     "mongodb": "^5.7.0",
     "mongoose": "^5.12.14",
-    "node-fetch": "^3.3.2",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
     "passport-jwt-cookiecombo": "^1.0.5",
     "passport-local": "^1.0.0",
-    "passport-local-mongoose": "^8.0.0"
+    "passport-local-mongoose": "^8.0.0",
+    "hbs": "~4.0.4",
+    "http-errors": "~1.6.3",
+    "morgan": "~1.9.1"
   }
 }

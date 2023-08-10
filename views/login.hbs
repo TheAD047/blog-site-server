@@ -1,0 +1,32 @@
+<div class='card'>
+    <h2 class='text-center card-title'>Login</h2>
+    {{#if message}}
+        <span class="alert alert-danger text-center">
+            {{message}}
+        </span>
+    {{/if}}
+    <form class='form card-body' method="post">
+        <h3 class="text-center">Enter your credentials</h3>
+        <div class='row'>
+            <div class='col-md-2'></div>
+            <fieldset class='col-md-8'>
+                <label for='username'>Username/Email</label>
+                <input class='form-control' type='text' name='username' id='username' />
+            </fieldset>
+        </div>
+        <br />
+        <div class='row'>
+            <div class='col-md-2'></div>
+            <fieldset class='col-md-8'>
+                <label for='password'>Password</label>
+                <input class='form-control' type='password' name='password' id='password' />
+            </fieldset>
+        </div>
+        <br />
+        <h6 class='text-center'>
+            <button class='btn btn-primary' type='submit'>
+                Login
+            </button>
+        </h6>
+    </form>
+</div>

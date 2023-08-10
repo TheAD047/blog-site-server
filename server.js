@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const config = require('./config/config');
 const router = express.Router();
+const path = require('path')
 
 const Blog = require('./models/Blogs');
 
@@ -33,24 +34,6 @@ server.use(passport.session());
 passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
-passport.use(new passjwt.Strategy({
-        jwtFromRequest: passjwt.ExtractJwt.fromExtractors([
-            (req) => {
-                return req.cookie["_auth"];
-            }
-        ]),
-        secretOrKey: config.JWTsecret
-    },
-    (payload, done) => {
-        return User.findOne({where: {'_id': payload.id} })
-            .then((user) => {
-                return done(null, user)
-            })
-            .catch((err) => {
-                return done(err)
-            })
-    }
-))
 
 mongoose
     .connect(config.db, {useNewUrlParser: true, useUnifiedTopology: true})
@@ -60,6 +43,8 @@ mongoose
     .catch((err) => {
         console.log('DB not connected ' + err)
     })
+
+server.use(express.static(path.join(__dirname + "/public")))
 
 server.get('/api', (req, res, next) => {
     res.json({'users': ['user1', 'user2', 'user3']})
@@ -78,9 +63,9 @@ router.get('/api/discover', (req, res, next) => {
 })
 
 server.use('/', router)
-server.use('/api/Blog', blogRouter);
-server.use('/api/Report', reportRouter)
-server.use('/api/User', userRouter)
+server.use('/Blog', blogRouter);
+server.use('/Report', reportRouter)
+server.use('/User', userRouter)
 
 server.listen(process.env.PORT || 5000, () => {
     console.log("Server started")

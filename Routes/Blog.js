@@ -44,7 +44,6 @@ router.post('/delete/:id', (req, res, next) => {
                 }
             })
         }
-
     })
 })
 

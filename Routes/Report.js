@@ -6,20 +6,13 @@ const Blog = require("../models/Blogs");
 
 //get all reports
 router.get('/view', (req, res, next) => {
-    const headers = JSON.stringify(req.rawHeaders)
-
-    if(headers.includes('_auth=ey')) {
-        Report.find((err, reports) => {
-            if (err) {
-                console.log('err' + err);
-            } else {
-                res.json(reports)
-            }
-        }).limit(100);
-    }
-    else {
-        res.sendStatus(401);
-    }
+    Report.find((err, reports) => {
+        if (err) {
+            console.log('err' + err);
+        } else {
+            res.json(reports)
+        }
+    }).limit(100);
 })
 
 //get a certain report
@@ -27,23 +20,18 @@ router.get('/view/:id', (req, res, next) => {
     var id = req.params.id;
     const headers = JSON.stringify(req.rawHeaders)
 
-    if(headers.includes('_auth=ey')) {
-        Report.findOne({'_id': id}, 'reportDescription _id blogID reportedBy', (err, oneReport) => {
-            if (err) {
-                console.log(err);
-                res.sendStatus(500);
-            }
-            else if (oneReport === null) {
-                res.sendStatus(404)
-            }
-            else {
-                res.json(oneReport);
-            }
-        })
-    }
-    else {
-        res.sendStatus(401)
-    }
+    Report.findOne({'_id': id}, 'reportDescription _id blogID reportedBy', (err, oneReport) => {
+        if (err) {
+            console.log(err);
+            res.sendStatus(500);
+        }
+        else if (oneReport === null) {
+            res.sendStatus(404)
+        }
+        else {
+            res.json(oneReport);
+        }
+    })
 })
 
 //add a new report linked to a certain blog
