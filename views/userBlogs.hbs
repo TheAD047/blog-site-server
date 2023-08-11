@@ -1,6 +1,30 @@
-<h1 class="text-center">Blogs by {{author.username}}</h1>
+<h1 class="text-center">Blogs by
+    {{#if isAuthor}}
+        you
+    {{else}}
+        {{author.username}}
+    {{/if}}
+</h1>
+
+{{#if isAuthor}}
+    <br />
+    <h6 class="text-center">
+        <a href="/blogs/add" class="btn btn-primary">
+            New Blog!
+        </a>
+    </h6>
+{{/if}}
+
+<br />
+
+<h6 class="text-center">
+    <a href="/reports/view" class="btn btn-info">
+        View Reports
+    </a>
+</h6>
 
 <hr />
+
 {{#blogs}}
     <div class="row">
         <div class="col text-center border border-dark">
@@ -20,13 +44,13 @@
                 </a>
             </div>
             <div class="col-auto text-center border border-dark">
-                <a href="/blogs/delete/{{this._id}}">
+                <a href="/blogs/delete/{{this._id}}" onclick="deleteConfirm()">
                     <img src="/images/delete.svg" alt="edit" id="action" />
                 </a>
             </div>
         {{else}}
             <div class="col-auto text-center border border-dark">
-                <a href="/blogs/{{this._id}}">
+                <a href="/blogs/{{this._id}}" >
                     <img src="/images/view.svg" alt="edit" id="action" />
                 </a>
             </div>

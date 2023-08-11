@@ -1,0 +1,39 @@
+<div class="card">
+    <h1 class="text-center card-title">Report a Blog</h1>
+    <form class="form card-body" method="post">
+        <h3 class="text-center">Tell us what is wrong the this blog</h3>
+        <br />
+        <div class="container">
+            <div class='list-group list-group-flush card'>
+                <h2 class='list-group-item card-text'>
+                    {{blog.heading}}
+                </h2>
+                <p class='list-group-item card-text'>
+                    {{blog.body}}
+                </p>
+                <div class='list-group-item'>
+                    <div class='row'>
+                        <div class='col-md-6'>
+                            {{blog.username}}
+                        </div>
+                        <div class='col-ms-6'>
+                            {{blog.date}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <fieldset>
+            <label for="description"></label>
+            <textarea class="form-control" id="description" name="description"></textarea>
+        </fieldset>
+        <br />
+        <h6 class="text-center">
+            <button class="btn btn-primary" type="submit">
+                Report!
+            </button>
+        </h6>
+    </form>
+</div>
+

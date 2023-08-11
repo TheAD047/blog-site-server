@@ -12,9 +12,9 @@ router.get('/view', auth, authO, (req, res, next) => {
     Report.find((err, reports) => {
         if (err) {
             console.log('err' + err);
-            res.render('error', {message: 'There was an internal server error'})
+            res.render('error', {message: 'There was an internal server error',  user: req.user})
         } else {
-            res.render('reports', {reports: reports})
+            res.render('reports', {reports: reports,  user: req.user})
         }
     }).limit(100);
 })
@@ -25,13 +25,30 @@ router.get('/view/:id', auth, authO, (req, res, next) => {
 
     Report.findOne({'_id': id}, 'reportDescription _id blogID reportedBy', (err, oneReport) => {
         if (err) {
-            res.render('error', {message: 'There was an internal server error'})
+            res.render('error', {message: 'There was an internal server error',  user: req.user})
         }
         else if (oneReport === null) {
-            res.render('error', {message: '404 not found'})
+            res.render('error', {message: '404 not found', user: req.user})
         }
         else {
             res.render('reportDetails', {report: oneReport, user: req.user});
+        }
+    })
+})
+
+router.get('/add/:blogId', auth, (req, res, next) => {
+    var id = req.params.blogId;
+
+    Blog.findOne({'_id': id}, 'heading body username', (err, oneBlog) => {
+        if(err) {
+            res.render('error', {message: 'There was an internal server error', user: req.user})
+        }
+        else if (oneBlog === null) {
+            res.render('error', {message: '404 not found', user: req.user})
+        }
+        else {
+            oneBlog.username = oneBlog.username.split('@')[0]
+            res.render('addReport', {blog: oneBlog, user: req.user})
         }
     })
 })
@@ -40,12 +57,12 @@ router.get('/view/:id', auth, authO, (req, res, next) => {
 router.post('/add/:blogId', auth, (req, res, next) => {
     var id = req.params.blogId;
 
-    Blog.findOne({'_id': id}, 'heading body date', (err, oneBlog) => {
+    Blog.findOne({'_id': id}, 'heading', (err, oneBlog) => {
         if(err) {
-            res.render('error', {message: 'There was an internal server error'})
+            res.render('error', {message: 'There was an internal server error', user: req.user})
         }
         else if (oneBlog === null) {
-            res.render('error', {message: '404 not found'})
+            res.render('error', {message: '404 not found', user: req.user})
         }
         else {
             Report.create({
@@ -54,12 +71,13 @@ router.post('/add/:blogId', auth, (req, res, next) => {
                 reportedBy: req.user.username
             }, (err, newReport) => {
                 if (err) {
-                    res.render('error', {message: 'There was an internal server error'})
+                    res.render('error', {message: 'There was an internal server error', user: req.user})
                 }
                 else{
-                    res.render('/Thanks', {message: 'thanks for reporting, we will have a look at it if' +
+                    console.log(newReport)
+                    res.render('Thanks', {message: 'thanks for reporting, we will have a look at it if' +
                             'we find that this violates our community guidelines we will take action. And dont worry about ' +
-                            'retaliation your report is anonymous'})
+                            'retaliation your report is anonymous', user: req.user})
                 }
             })
         }
@@ -67,24 +85,24 @@ router.post('/add/:blogId', auth, (req, res, next) => {
 })
 
 //delete a report
-router.post('/delete/:reportID', auth, authO, (req, res, next) => {
+router.get('/delete/:reportID', auth, authO, (req, res, next) => {
     const id = req.params.reportID;
 
     Report.findOne({'_id': id}, (err, oneReport) => {
         if (err) {
             console.log(err);
-            res.sendStatus(500);
+            res.render('error', {message: 'There was an internal server error', user: req.user})
         } else if (oneReport === null) {
-            res.sendStatus(404)
+            res.render('error', {message: '404 not found', user: req.user})
         }
         else {
             Report.deleteOne({'_id': id}, (err) => {
                 if(err) {
                     console.log(err)
-                    res.render('error',  {message: 'There was an internal server error'})
+                    res.render('error',  {message: 'There was an internal server error', user: req.user})
                 }
                 else {
-                    res.sendStatus(200)
+                    res.redirect('/reports/view')
                 }
             })
         }

@@ -4,7 +4,7 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.render('index', { user: req.user });
 });
 
 router.get('/discover', (req, res, next) => {
@@ -14,7 +14,7 @@ router.get('/discover', (req, res, next) => {
     }
     else {
       console.log(tenBlogs)
-      res.render('discover', {title: 'Discover' , tenBlogs: tenBlogs});
+      res.render('discover', {title: 'Discover' , tenBlogs: tenBlogs, user: req.user});
     }
   }).limit(10).lean();
 })

@@ -40,29 +40,13 @@ router.post('/login', passport.authenticate('local', {
     failureMessage: 'Invalid credentials'
 }))
 
-router.get('/view/:username', (req, res, next) =>  {
-    User.findOne({'username': req.params.username}, '_id username admin', (err, oneUser) => {
-        if(err) {
-            console.log('err' + err)
-            res.sendStatus(500);
-        }
-        else if(oneUser === null){
-            res.sendStatus(404);
-        }
-        else{
-            res.json(oneUser);
-        }
-    })
-})
-
-
 router.get('/logout', (req, res, next) => {
     req.logout((err) => {
         if(err) {
             console.log(err)
         }
         else{
-            res.redirect('/login')
+            res.redirect('/user/login')
         }
     })
 })
