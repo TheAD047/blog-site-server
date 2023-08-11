@@ -4,3 +4,5 @@
 <p>a user can only add a report nothing else not even view what they typed in</p>
 <p>an admin can only view add or delete a report</p>
 <p>full CRUD for blogs with appropriate authentication checks in place</p>
+<p>for CSS bootstrap was used through out</p>
+<P>outside sources were used to template and style the header and footer ONLY!</P>
