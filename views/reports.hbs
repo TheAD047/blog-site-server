@@ -1,0 +1,26 @@
+<table class='table table-striped'>
+    <thead>
+        <tr>
+            <th>Report ID</th>
+            <th>Blog ID</th>
+            <th>Reported By</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {{#reports}}
+        <tr>
+            <td>{{this._id}}</td>
+            <td>{{this.blogID}}</td>
+            <td>{{this.reportedBy}}</td>
+            <td>
+                <button class='btn btn-primary'>
+                    <a class='text-light' href="/Reports/view/{{this._id}}">
+                        View
+                    </a>
+                </button>
+            </td>
+        </tr>
+    {{/reports}}
+    </tbody>
+</table>

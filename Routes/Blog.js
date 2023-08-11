@@ -63,7 +63,7 @@ router.get('/:id', (req, res, next) => {
     console.log(id);
 
     // get the blog from db
-    Blog.findOne({'_id': id}, 'heading body date', (err, oneBlog) => {
+    Blog.findOne({'_id': id}, 'heading body date username', (err, oneBlog) => {
         if(err) {
             console.log(err)
             res.render('error', {message: 'There was an internal server error'})
@@ -78,26 +78,46 @@ router.get('/:id', (req, res, next) => {
     })
 })
 
+router.get('/edit/:id', auth, (req, res, next) => {
+    let id = req.params.id
+
+    Blog.findOne({'_id': id}, 'heading body username', (err, oneBlog) => {
+        if(req.user.username === oneBlog.username) {
+            res.render('editBlog', {blog: oneBlog})
+        }
+        else{
+            res.render('error', {'message': 'unauthorised'})
+        }
+    })
+})
+
 //edit handler for blog
 router.post('/edit/:id', auth,(req, res, next) => {
     var id = req.params.id;
 
-    Blog.updateOne(
-        {'_id': id},
-        {
-            heading: req.body.heading,
-            body: req.body.body
-        },
-        (err, updatedBlog) => {
-            if (err) {
-                console.log(err)
-                res.render('error', {message: 'There was an internal server error'})
-            }
-            else {
-                res.redirect(`/blogs/${req.user.username}/blogs`)
-            }
+    Blog.findOne({'_id': id}, 'username', (err, oneBlog) => {
+        if(req.user.username === oneBlog.username) {
+            Blog.updateOne(
+                {'_id': id},
+                {
+                    heading: req.body.heading,
+                    body: req.body.body
+                },
+                (err, updatedBlog) => {
+                    if (err) {
+                        console.log(err)
+                        res.render('error', {message: 'There was an internal server error'})
+                    }
+                    else {
+                        res.redirect(`/blogs/${req.user.username}/blogs`)
+                    }
+                }
+            )
         }
-    )
+        else{
+            res.render('error', {'message': 'unauthorised'})
+        }
+    })
 })
 
 router.get('/:username/blogs',  (req, res ,next) => {

@@ -15,18 +15,18 @@
         </div>
         {{#if ../isAuthor}}
             <div class="col-auto text-center border border-dark">
-                <a href="/blog/edit/{{this._id}}">
+                <a href="/blogs/edit/{{this._id}}">
                     <img src="/images/edit.svg" alt="edit" id="action" />
                 </a>
             </div>
             <div class="col-auto text-center border border-dark">
-                <a href="/blog/delete/{{this._id}}">
+                <a href="/blogs/delete/{{this._id}}">
                     <img src="/images/delete.svg" alt="edit" id="action" />
                 </a>
             </div>
         {{else}}
             <div class="col-auto text-center border border-dark">
-                <a href="/blog/{{this._id}}">
+                <a href="/blogs/{{this._id}}">
                     <img src="/images/view.svg" alt="edit" id="action" />
                 </a>
             </div>

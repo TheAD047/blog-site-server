@@ -41,7 +41,7 @@ router.post('/login', passport.authenticate('local', {
 }))
 
 router.get('/view/:username', (req, res, next) =>  {
-    User.findOne({'username': req.params.username}, '_id', (err, oneUser) => {
+    User.findOne({'username': req.params.username}, '_id username admin', (err, oneUser) => {
         if(err) {
             console.log('err' + err)
             res.sendStatus(500);
@@ -54,6 +54,7 @@ router.get('/view/:username', (req, res, next) =>  {
         }
     })
 })
+
 
 router.get('/logout', (req, res, next) => {
     req.logout((err) => {

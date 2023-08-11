@@ -1,0 +1,18 @@
+<h1 class='text-center'>Report Details</h1>
+        <br/>
+        <div class='list-group list-group-flush card'>
+            <p class='text-center ist-group-item card-text'> ReportID: {{report._id}}</p>
+            <p class='text-center ist-group-item card-text'>
+                <a href="/Blogs/{{report.blogID}}" >
+                    BlogID: {{report.blogID}}
+                </a>
+            </p>
+            <p class='text-center ist-group-item card-text text-area'>{{report.reportDescription}}</p>
+        </div>
+
+        <br />
+        <h6 class='text-center'>
+            <button class='btn btn-danger text-center'>
+                Delete
+            </button>
+        </h6>
