@@ -31,7 +31,7 @@ router.get('/view/:id', auth, authO, (req, res, next) => {
             res.render('error', {message: `404 not found`, user: req.user})
         }
         else {
-            res.render('ReportDetails', {report: oneReport, user: req.user});
+            res.render('reportDetails', {report: oneReport, user: req.user});
         }
     })
 })
