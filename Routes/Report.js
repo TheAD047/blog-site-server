@@ -28,7 +28,7 @@ router.get('/view/:id', auth, authO, (req, res, next) => {
             res.render('error', {message: 'There was an internal server error',  user: req.user})
         }
         else if (oneReport === null) {
-            res.render('error', {message: '404 not found', user: req.user})
+            res.render('error', {message: `404 not found ${JSON.stringify(oneReport)}`, user: req.user})
         }
         else {
             res.render('ReportDetails', {report: oneReport, user: req.user});
