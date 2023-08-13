@@ -3,7 +3,6 @@ const passport = require('passport')
 const User = require('../models/Users')
 const jwt = require('jsonwebtoken')
 const config = require('../config/config')
-const {data} = require("express-session/session/cookie");
 
 const router = express.Router();
 
