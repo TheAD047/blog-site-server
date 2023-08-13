@@ -2,7 +2,7 @@ const express = require('express');
 const passport = require('passport')
 const User = require('../models/Users')
 const jwt = require('jsonwebtoken')
-const config = require('../../../blogsite/server/config')
+const config = require('../config')
 const {data} = require("express-session/session/cookie");
 
 const router = express.Router();
