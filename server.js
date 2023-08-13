@@ -82,6 +82,6 @@ server.use('/api/Blog', blogRouter);
 server.use('/api/Report', reportRouter)
 server.use('/api/User', userRouter)
 
-server.listen(5000, () => {
+server.listen(process.env.PORT || 5000, () => {
     console.log("Server started")
 })
