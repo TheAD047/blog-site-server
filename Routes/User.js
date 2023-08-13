@@ -49,7 +49,7 @@ router.post('/login', async (req, res) => {
                 headers: {
                     'Content-Type': 'application/json'
                 }
-            })
+            }).catch(err => console.log(err))
 
             try {
                 const id = await response.json();
